@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <SolidWorksApiDirectory Condition="'$(SolidWorksApiDirectory)' == ''">$(ProgramFiles)\SOLIDWORKS Corp\SOLIDWORKS\api\redist</SolidWorksApiDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="SolidWorks.Interop.sldworks">
+      <HintPath>$(SolidWorksApiDirectory)\SolidWorks.Interop.sldworks.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="SolidWorks.Interop.swconst">
+      <HintPath>$(SolidWorksApiDirectory)\SolidWorks.Interop.swconst.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="ValidateSolidWorksReferences" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(SolidWorksApiDirectory)\SolidWorks.Interop.sldworks.dll') Or !Exists('$(SolidWorksApiDirectory)\SolidWorks.Interop.swconst.dll')"
+           Text="SOLIDWORKS interop assemblies were not found. Set SolidWorksApiDirectory to the installed api\redist directory." />
+  </Target>
+</Project>
